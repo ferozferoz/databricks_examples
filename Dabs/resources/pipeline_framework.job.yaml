@@ -1,0 +1,39 @@
+# job to run only python_wheel_task
+
+resources:
+  jobs:
+    pipeline_framework:
+      name: pipeline_framework
+
+      #email_notifications:
+      #  on_failure:
+      #    - your_email@example.com
+
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: schema
+          default: ${var.schema}
+
+      tasks:
+        - task_key: main_task
+          environment_key: default
+          python_wheel_task:
+            package_name: Dabs
+            entry_point: clickbench_hits
+            parameters:
+              - "--catalog"
+              - "${var.catalog}"
+              - "--schema"
+              - "${var.schema}"
+
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "5"
+            dependencies:
+              # By default we just include the .whl file generated for the Dabs package.
+              # See https://docs.databricks.com/dev-tools/bundles/library-dependencies.html
+              # for more information on how to add other libraries.
+              - ../dist/*.whl
+
