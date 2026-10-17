@@ -22,6 +22,7 @@ dev = [
 
 [project.scripts]
 main = "Dabs.main:main"
+main_1 = "Dabs.main_1:main"
 
 [build-system]
 requires = ["hatchling"]
